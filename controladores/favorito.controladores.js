@@ -1,15 +1,16 @@
 import {
   getTodosFavoritos,
-  updateFavorito,
-} from "../servicos/favorito.servicos.js";
+  insereFavorito,
+  deleteFavorito,
+} from "../services/favoritos.services.js";
 
-function getFavoritos(request, response) {
+async function getFavoritos(request, response) {
   try {
-    const favoritos = getTodosFavoritos();
+    const favoritos = await getTodosFavoritos();
     response.send({
       success: true,
-      message: favoritos.message,
-      payload: favoritos.payload,
+      message: "Lista de favoritos",
+      payload: favoritos,
     });
   } catch (error) {
     response.status(500);
@@ -17,16 +18,15 @@ function getFavoritos(request, response) {
   }
 }
 
-function updateFavoritos(request, response) {
+async function insereFavoritos(request, response) {
   try {
     const id = request.params.id;
-    const isFavorito = request.body.favorito;
 
-    const update = updateFavorito(id, isFavorito);
+    const update = await insereFavorito(id);
 
     response.send({
       success: true,
-      message: update.message,
+      message: "Livro atualizado com sucesso!",
       payload: update.payload,
     });
   } catch (error) {
@@ -35,4 +35,25 @@ function updateFavoritos(request, response) {
   }
 }
 
-export { getFavoritos, updateFavoritos };
+async function deletaFavorito(request, response) {
+  try {
+    const id = request.params.id;
+    const target = await deleteFavorito(id);
+    if (!target) {
+      return response.status(404).send({
+        success: false,
+        message: "Favorito não encontrado",
+      });
+    }
+    response.send({
+      success: true,
+      message: "Favorito deletado com sucesso!",
+      payload: target,
+    });
+  } catch (error) {
+    response.status(500);
+    response.send(error.message);
+  }
+}
+
+export { getFavoritos, insereFavoritos, deletaFavorito };

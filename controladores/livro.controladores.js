@@ -1,17 +1,17 @@
 import {
-  getTodosLivros,
   getLivroPorId,
+  getTodosLivros,
   insereLivro,
-  deletaLivroPorId,
   modificaLivro,
-} from "../servicos/livros.servicos.js";
+  deletaLivroPorId,
+} from "../services/livros.services.js";
 
-function getLivros(request, response) {
-  const livros = getTodosLivros();
+async function getLivros(request, response) {
+  const livros = await getTodosLivros();
   try {
     response.send({
       success: true,
-      message: "Hello world!!!!",
+      message: "Lista de livros",
       payload: livros,
     });
   } catch (error) {
@@ -20,11 +20,11 @@ function getLivros(request, response) {
   }
 }
 
-function getLivro(request, response) {
+async function getLivro(request, response) {
   const id = request.params.id;
 
-  if (id && Number(id)) {
-    const livro = getLivroPorId(id);
+  if (id) {
+    const livro = await getLivroPorId(id);
     response.send(livro);
   } else {
     response.status(422);
@@ -32,12 +32,11 @@ function getLivro(request, response) {
   }
 }
 
-function setLivro(request, response) {
+async function setLivro(request, response) {
   const body = request.body;
 
-  console.log("body", body);
   try {
-    insereLivro(body);
+    await insereLivro(body);
     response.send(201);
   } catch (error) {
     response.status(422);
@@ -45,12 +44,12 @@ function setLivro(request, response) {
   }
 }
 
-function patchLivro(request, response) {
+async function patchLivro(request, response) {
   const id = request.params.id;
 
   try {
     const body = request.body;
-    modificaLivro(id, body);
+    await modificaLivro(id, body);
     response.send(201);
   } catch (error) {
     response.status(500);
@@ -58,11 +57,11 @@ function patchLivro(request, response) {
   }
 }
 
-function deletaLivro(request, response) {
+async function deletaLivro(request, response) {
   const id = request.params.id;
 
-  if (id && Number(id)) {
-    deletaLivroPorId(id);
+  if (id) {
+    await deletaLivroPorId(id);
     response.send("Livro deletado com sucesso");
   } else {
     response.status(422);
@@ -70,4 +69,5 @@ function deletaLivro(request, response) {
   }
 }
 
+// export { getLivros, getLivro, setLivro, patchLivro, deletaLivro };
 export { getLivros, getLivro, setLivro, patchLivro, deletaLivro };

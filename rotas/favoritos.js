@@ -1,10 +1,12 @@
 import { Router } from "express";
 import {
   getFavoritos,
-  updateFavoritos,
+  insereFavoritos,
+  deletaFavorito,
 } from "../controladores/favorito.controladores.js";
 
 export const routerFavoritos = Router();
 
 routerFavoritos.get("/", getFavoritos);
-routerFavoritos.patch("/:id", updateFavoritos);
+routerFavoritos.post("/:id", insereFavoritos);
+routerFavoritos.delete("/:id", deletaFavorito);
