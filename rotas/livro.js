@@ -5,12 +5,13 @@ import {
   setLivro,
   patchLivro,
   deletaLivro,
+  getLivrosEditora,
 } from "../controladores/livro.controladores.js";
 
 export const routerLivros = Router();
 
 routerLivros.get("/", getLivros);
-
+routerLivros.get("/search", getLivrosEditora);
 routerLivros.get("/:id", getLivro);
 
 routerLivros.post("/", setLivro);

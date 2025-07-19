@@ -1,4 +1,3 @@
-import livroModel from "../models/Livros.js";
 import favoritosModel from "../models/Favoritos.js";
 import mongoose from "mongoose";
 

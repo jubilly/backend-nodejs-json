@@ -1,6 +1,8 @@
 import express from "express";
 import { routerLivros } from "./rotas/livro.js";
 import { routerFavoritos } from "./rotas/favoritos.js";
+import { routerAutor } from "./rotas/autor.js";
+
 import cors from "cors";
 import connectDB from "./config/dbConnect.js";
 import dotenv from "dotenv";
@@ -13,6 +15,8 @@ app.use(cors({ origin: "*" }));
 app.use("/livros", routerLivros);
 
 app.use("/favoritos", routerFavoritos);
+
+app.use("/autor", routerAutor);
 
 const PORT = 8000;
 
